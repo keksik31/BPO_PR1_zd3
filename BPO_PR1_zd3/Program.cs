@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Globalization;
-interface IMovable
+interface ISwimmable
 {
-    string Move();
+    string Swim();
 }
-abstract class Animal : IMovable
+
+abstract class Animal
 {
     public string Name { get; set; }
     public int Age { get; set; }
