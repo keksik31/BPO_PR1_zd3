@@ -7,10 +7,55 @@ interface ISwimmable
 
 abstract class Animal
 {
-    public string Name { get; set; }
-    public int Age { get; set; }
-    public double Weight { get; set; }
-    public string Habitat { get; set; }
+    private string _name = "";
+    private int _age;
+    private double _weight;
+    private string _habitat = "";
+
+    public string Name
+    {
+        get => _name;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Название не должно быть пустым.");
+            _name = value;
+        }
+    }
+
+    public int Age
+    {
+        get => _age;
+        set
+        {
+            if (value <= 0)
+                throw new ArgumentOutOfRangeException(nameof(Age), "Возраст должен быть больше 0.");
+            _age = value;
+        }
+    }
+
+    public double Weight
+    {
+        get => _weight;
+        set
+        {
+            if (value <= 0)
+                throw new ArgumentOutOfRangeException(nameof(Weight), "Вес должен быть больше 0.");
+            _weight = value;
+        }
+    }
+
+    public string Habitat
+    {
+        get => _habitat;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Среда обитания не должна быть пустой.");
+            _habitat = value;
+        }
+    }
+
     public abstract string Species { get; }
     public virtual string Chain => "Животное";
     protected Animal(string name, int age, double weight, string habitat)
@@ -170,7 +215,7 @@ class Program
 
                 int value = int.Parse(input);
 
-                if (value < 0 || value > 1000000)
+                if (value <= 0 || value > 1000000)
                     throw new ArgumentOutOfRangeException();
 
                 return value;
@@ -185,7 +230,7 @@ class Program
             }
             catch (ArgumentOutOfRangeException)
             {
-                Console.WriteLine("Ошибка: значение должно быть от 0 до 1000000.");
+                Console.WriteLine("Ошибка: значение должно быть больше 0 и не больше 1000000.");
             }
         }
     }
@@ -209,7 +254,7 @@ class Program
                 if (double.IsNaN(value) || double.IsInfinity(value))
                     throw new FormatException();
 
-                if (value < 0 || value > 1000000)
+                if (value <= 0 || value > 1000000)
                     throw new ArgumentOutOfRangeException();
 
                 return value;
@@ -224,7 +269,7 @@ class Program
             }
             catch (ArgumentOutOfRangeException)
             {
-                Console.WriteLine("Ошибка: значение должно быть от 0 до 1000000.");
+                Console.WriteLine("Ошибка: значение должно быть больше 0 и не больше 1000000.");
             }
         }
     }
