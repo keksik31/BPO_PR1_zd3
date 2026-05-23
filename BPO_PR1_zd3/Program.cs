@@ -144,12 +144,88 @@ class Program
     }
     static string Read(string text)
     {
-        Console.Write(text);
-        return Console.ReadLine() ?? "";
+        while (true)
+        {
+            Console.Write(text);
+            string? value = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(value))
+                return value;
+
+            Console.WriteLine("Ошибка: значение не должно быть пустым.");
+        }
     }
-    static int ReadInt(string text) => int.Parse(Read(text));
+
+    static int ReadInt(string text)
+    {
+        while (true)
+        {
+            try
+            {
+                Console.Write(text);
+                string? input = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(input))
+                    throw new FormatException();
+
+                int value = int.Parse(input);
+
+                if (value < 0 || value > 1000000)
+                    throw new ArgumentOutOfRangeException();
+
+                return value;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Ошибка: введите целое число.");
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Ошибка: введено слишком большое число.");
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Ошибка: значение должно быть от 0 до 1000000.");
+            }
+        }
+    }
+
     static double ReadDouble(string text)
     {
-        return double.Parse(Read(text).Replace(',', '.'), CultureInfo.InvariantCulture);
+        while (true)
+        {
+            try
+            {
+                Console.Write(text);
+                string? input = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(input))
+                    throw new FormatException();
+
+                input = input.Replace(',', '.');
+
+                double value = double.Parse(input, CultureInfo.InvariantCulture);
+
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                    throw new FormatException();
+
+                if (value < 0 || value > 1000000)
+                    throw new ArgumentOutOfRangeException();
+
+                return value;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Ошибка: введите число в корректном формате.");
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Ошибка: введено слишком большое число.");
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Ошибка: значение должно быть от 0 до 1000000.");
+            }
+        }
     }
 }
